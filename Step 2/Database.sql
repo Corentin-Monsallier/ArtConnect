@@ -34,24 +34,6 @@ CREATE TABLE Discipline(
    PRIMARY KEY(id_discipline)
 );
 
-CREATE TABLE Gallery(
-   id_gallery INT AUTO_INCREMENT,
-   name_gallery VARCHAR(50),
-   address VARCHAR(100),
-   rating INT CHECK (rating BETWEEN 1 AND 5),
-   website_gallery VARCHAR(100),
-   PRIMARY KEY(id_gallery)
-);
-
-CREATE TABLE Gallery_Hours(
-   id_gallery INT,
-   day_of_week VARCHAR(20),
-   open_time TIME,
-   close_time TIME,
-   PRIMARY KEY(id_gallery, day_of_week),
-   FOREIGN KEY(id_gallery) REFERENCES Gallery(id_gallery)
-);
-
 CREATE TABLE Artwork(
    id_artwork INT AUTO_INCREMENT,
    title_art VARCHAR(100),
@@ -88,19 +70,6 @@ CREATE TABLE Workshop(
    FOREIGN KEY(id_artist) REFERENCES Artist(id_artist)
 );
 
-CREATE TABLE Exhibition(
-   id_exhibition INT AUTO_INCREMENT,
-   title_exhib VARCHAR(100),
-   curator_name VARCHAR(50),
-   start_date DATE,
-   end_date DATE,
-   theme VARCHAR(50),
-   description TEXT,
-   id_gallery INT NOT NULL,
-   PRIMARY KEY(id_exhibition),
-   FOREIGN KEY(id_gallery) REFERENCES Gallery(id_gallery)
-);
-
 CREATE TABLE Artist_Social(
    id_social INT AUTO_INCREMENT,
    platform VARCHAR(50),
@@ -123,9 +92,39 @@ CREATE TABLE Address(
    number INT,
    street VARCHAR(50),
    id_city INT NOT NULL,
-   id_gallery INT NOT NULL,
    PRIMARY KEY(address_id),
-   FOREIGN KEY(id_city) REFERENCES City(id_city),
+   FOREIGN KEY(id_city) REFERENCES City(id_city)
+);
+
+CREATE TABLE Gallery(
+   id_gallery INT AUTO_INCREMENT,
+   name_gallery VARCHAR(50),
+   rating INT CHECK (rating BETWEEN 1 AND 5),
+   website_gallery VARCHAR(100),
+   address_id INT NOT NULL,
+   PRIMARY KEY(id_gallery),
+   FOREIGN KEY(address_id) REFERENCES Address(address_id)
+);
+
+CREATE TABLE Gallery_Hours(
+   id_gallery INT,
+   day_of_week VARCHAR(20),
+   open_time TIME,
+   close_time TIME,
+   PRIMARY KEY(id_gallery, day_of_week),
+   FOREIGN KEY(id_gallery) REFERENCES Gallery(id_gallery)
+);
+
+CREATE TABLE Exhibition(
+   id_exhibition INT AUTO_INCREMENT,
+   title_exhib VARCHAR(100),
+   curator_name VARCHAR(50),
+   start_date DATE,
+   end_date DATE,
+   theme VARCHAR(50),
+   description TEXT,
+   id_gallery INT NOT NULL,
+   PRIMARY KEY(id_exhibition),
    FOREIGN KEY(id_gallery) REFERENCES Gallery(id_gallery)
 );
 
@@ -176,7 +175,7 @@ CREATE TABLE Booking(
    id_member INT,
    id_workshop INT,
    booking_date DATETIME,
-   payment_status ENUM,
+   payment_status ENUM('pending', 'paid', 'cancelled'),
    PRIMARY KEY(id_member, id_workshop),
    FOREIGN KEY(id_member) REFERENCES Member_(id_member),
    FOREIGN KEY(id_workshop) REFERENCES Workshop(id_workshop)
