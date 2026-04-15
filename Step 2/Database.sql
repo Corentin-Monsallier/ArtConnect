@@ -88,17 +88,6 @@ CREATE TABLE Workshop(
    FOREIGN KEY(id_artist) REFERENCES Artist(id_artist)
 );
 
-CREATE TABLE Booking(
-   id_booking INT AUTO_INCREMENT,
-   booking_date DATETIME,
-   payment_status ENUM('pending', 'paid', 'cancelled'),
-   id_member INT NOT NULL,
-   id_workshop INT NOT NULL,
-   PRIMARY KEY(id_booking),
-   FOREIGN KEY(id_member) REFERENCES Member_(id_member),
-   FOREIGN KEY(id_workshop) REFERENCES Workshop(id_workshop)
-);
-
 CREATE TABLE Exhibition(
    id_exhibition INT AUTO_INCREMENT,
    title_exhib VARCHAR(100),
@@ -112,18 +101,6 @@ CREATE TABLE Exhibition(
    FOREIGN KEY(id_gallery) REFERENCES Gallery(id_gallery)
 );
 
-CREATE TABLE Review(
-   id_review INT AUTO_INCREMENT,
-   rating INT,
-   comment TEXT,
-   review_date DATETIME,
-   id_member INT NOT NULL,
-   id_artwork INT NOT NULL,
-   PRIMARY KEY(id_review),
-   FOREIGN KEY(id_member) REFERENCES Member_(id_member),
-   FOREIGN KEY(id_artwork) REFERENCES Artwork(id_artwork)
-);
-
 CREATE TABLE Artist_Social(
    id_social INT AUTO_INCREMENT,
    platform VARCHAR(50),
@@ -131,6 +108,25 @@ CREATE TABLE Artist_Social(
    id_artist INT NOT NULL,
    PRIMARY KEY(id_social),
    FOREIGN KEY(id_artist) REFERENCES Artist(id_artist)
+);
+
+CREATE TABLE City(
+   id_city INT AUTO_INCREMENT,
+   city VARCHAR(50),
+   code INT,
+   country VARCHAR(50),
+   PRIMARY KEY(id_city)
+);
+
+CREATE TABLE Address(
+   address_id INT AUTO_INCREMENT,
+   number INT,
+   street VARCHAR(50),
+   id_city INT NOT NULL,
+   id_gallery INT NOT NULL,
+   PRIMARY KEY(address_id),
+   FOREIGN KEY(id_city) REFERENCES City(id_city),
+   FOREIGN KEY(id_gallery) REFERENCES Gallery(id_gallery)
 );
 
 CREATE TABLE Artist_Discipline(
@@ -150,10 +146,10 @@ CREATE TABLE Artwork_Tag(
 );
 
 CREATE TABLE Exhibition_Artwork(
-   id_artist INT,
+   id_artwork INT,
    id_exhibition INT,
-   PRIMARY KEY(id_artist, id_exhibition),
-   FOREIGN KEY(id_artist) REFERENCES Artist(id_artist),
+   PRIMARY KEY(id_artwork, id_exhibition),
+   FOREIGN KEY(id_artwork) REFERENCES Artwork(id_artwork),
    FOREIGN KEY(id_exhibition) REFERENCES Exhibition(id_exhibition)
 );
 
@@ -163,4 +159,25 @@ CREATE TABLE Member_Discipline(
    PRIMARY KEY(id_member, id_discipline),
    FOREIGN KEY(id_member) REFERENCES Member_(id_member),
    FOREIGN KEY(id_discipline) REFERENCES Discipline(id_discipline)
+);
+
+CREATE TABLE Review(
+   id_member INT,
+   id_artwork INT,
+   rating INT,
+   comment TEXT,
+   review_date DATETIME,
+   PRIMARY KEY(id_member, id_artwork),
+   FOREIGN KEY(id_member) REFERENCES Member_(id_member),
+   FOREIGN KEY(id_artwork) REFERENCES Artwork(id_artwork)
+);
+
+CREATE TABLE Booking(
+   id_member INT,
+   id_workshop INT,
+   booking_date DATETIME,
+   payment_status ENUM,
+   PRIMARY KEY(id_member, id_workshop),
+   FOREIGN KEY(id_member) REFERENCES Member_(id_member),
+   FOREIGN KEY(id_workshop) REFERENCES Workshop(id_workshop)
 );
