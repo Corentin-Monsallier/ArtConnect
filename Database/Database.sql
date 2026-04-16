@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS artconnect;
+CREATE DATABASE artconnect;
+USE artconnect;
+
 CREATE TABLE User_(
    id_user INT AUTO_INCREMENT,
    name_user VARCHAR(50),
@@ -12,7 +16,7 @@ CREATE TABLE Artist(
    id_artist INT AUTO_INCREMENT,
    bio TEXT,
    website_artist VARCHAR(100),
-   is_active LOGICAL,
+   is_active BOOLEAN DEFAULT TRUE,
    id_user INT NOT NULL,
    PRIMARY KEY(id_artist),
    UNIQUE(id_user),
@@ -21,7 +25,7 @@ CREATE TABLE Artist(
 
 CREATE TABLE Member_(
    id_member INT AUTO_INCREMENT,
-   membership_type VARCHAR(50),
+   membership_type ENUM('standard', 'premium'),
    id_user INT NOT NULL,
    PRIMARY KEY(id_member),
    UNIQUE(id_user),
