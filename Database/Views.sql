@@ -117,7 +117,7 @@ JOIN Member_ m ON b.id_member = m.id_member
 JOIN User_ u ON m.id_user = u.id_user
 WHERE b.payment_status <> 'cancelled';
 
--- Count workshops done already by 1 artist 
+-- Count workshops done already by an artist 
 CREATE VIEW V_Artist_Workshop_Count  AS 
 SELECT 
 	a.id_artist,
