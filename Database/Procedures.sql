@@ -94,7 +94,11 @@ BEGIN
     DECLARE p_max INT;
     DECLARE p_current INT;
     -- max capacity of the workshop 
-    SET p_max = F_Nb_Participants_Count(p_id_workshop);
+    SELECT COUNT(*) 
+    INTO p_current 
+    FROM Booking 
+    WHERE id_workshop = p_id_workshop 
+    AND payment_status != 'cancelled';
     -- current booked participants 
     SELECT COUNT(*) 
     INTO p_current 
@@ -119,7 +123,11 @@ BEGIN
     DECLARE p_current_participants INT;
     DECLARE p_max_places INT;
     -- current booked participants 
-    SET p_current_participants = F_Nb_Participants_Count(p_id_workshop);
+    SELECT COUNT(*) 
+    INTO p_current_participants 
+    FROM Booking 
+    WHERE id_workshop = p_id_workshop 
+    AND payment_status != 'cancelled';
     -- maximum participants
     SELECT max_participants INTO p_max_places 
     FROM Workshop 

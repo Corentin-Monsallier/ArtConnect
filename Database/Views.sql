@@ -103,7 +103,6 @@ GROUP BY
     w.max_participants; 
 
 -- Members in Workshop
-DROP VIEW IF EXISTS V_Workshop_Participants;
 CREATE VIEW V_Workshop_Participants AS
 SELECT 
     w.id_workshop,
