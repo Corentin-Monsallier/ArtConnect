@@ -28,6 +28,29 @@ JOIN Artist_Discipline ad ON d.id_discipline = ad.id_discipline
 JOIN Artist ar ON ad.id_artist = ar.id_artist 
 JOIN Artwork a ON ar.id_artist = a.id_artist; 
 
+-- Artworks by review
+CREATE VIEW V_Artwork_By_Review  AS 
+SELECT 
+    a.id_artwork, 
+    a.title_art, 
+    a.creation_year, 
+    a.type, 
+    a.medium, 
+    a.dimensions, 
+    a.description, 
+    a.price, 
+    a.status, 
+    r.rating, 
+    r.comment, 
+    r.review_date, 
+    r.id_member, 
+    u.name_user 
+FROM Review r  
+JOIN Artwork a ON r.id_artwork = a.id_artwork 
+JOIN Member_ m ON r.id_member = m.id_member 
+JOIN User_ u ON m.id_user = u.id_user
+ORDER BY r.rating;
+
 -- Average price of the artworks of an artist 
 CREATE VIEW V_Avg_Artwork_Price AS
 SELECT 
