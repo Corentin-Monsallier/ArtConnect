@@ -1,5 +1,6 @@
 USE artconnect;
 
+-- Register a user to multiple workshops 
 DELIMITER //
 CREATE PROCEDURE Register_To_Multiple_Workshops(
     IN p_id_member INT,
