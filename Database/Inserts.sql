@@ -1,27 +1,27 @@
 USE artconnect;
 
-INSERT INTO User_(name_user, email, birth_year, phone, city) VALUES
-('Alice Dupont', 'alice@example.com', 1985, '0600000001', 'Paris'),
-('Marc Leroy', 'marc@example.com', 1990, '0600000002', 'Lyon'),
-('Sophie Martin', 'sophie@example.com', 1998, '0600000003', 'Marseille'),
-('John Becker', 'john@example.com', 1982, '0600000004', 'Berlin'),
-('Emma Rossi', 'emma@example.com', 1995, '0600000005', 'Rome'),
-('Paul Durand', 'paul@example.com', 2000, '0600000006', 'Paris'),
-('Laura Chen', 'laura@example.com', 1997, '0600000007', 'Paris'),
-('Hugo Bernard', 'hugo@example.com', 1988, '0600000008', 'Lille'),
-('Nina Kovac', 'nina@example.com', 1993, '0600000009', 'Zagreb'),
-('Carlos Mendez', 'carlos@example.com', 1987, '0600000010', 'Madrid'),
+INSERT INTO User_ (name_user, email, birth_year, phone, city, password_user, role_user) VALUES
+('Alice Dupont', 'alice@example.com', 1985, '0600000001', 'Paris', 'alice123', 'MEMBER'),
+('Marc Leroy', 'marc@example.com', 1990, '0600000002', 'Lyon', 'marc123', 'ARTIST'),
+('Sophie Martin', 'sophie@example.com', 1998, '0600000003', 'Marseille', 'sophie123', 'MEMBER'),
+('John Becker', 'john@example.com', 1982, '0600000004', 'Berlin', 'john123', 'ARTIST'),
+('Emma Rossi', 'emma@example.com', 1995, '0600000005', 'Rome', 'emma123', 'MEMBER'),
+('Paul Durand', 'paul@example.com', 2000, '0600000006', 'Paris', 'paul123', 'MEMBER'),
+('Laura Chen', 'laura@example.com', 1997, '0600000007', 'Paris', 'laura123', 'ARTIST'),
+('Hugo Bernard', 'hugo@example.com', 1988, '0600000008', 'Lille', 'hugo123', 'MEMBER'),
+('Nina Kovac', 'nina@example.com', 1993, '0600000009', 'Zagreb', 'nina123', 'ARTIST'),
+('Carlos Mendez', 'carlos@example.com', 1987, '0600000010', 'Madrid', 'carlos123', 'MEMBER'),
 
-('Julia Stein', 'julia@example.com', 1994, '0600000011', 'Vienna'),
-('Tom Richards', 'tom@example.com', 1991, '0600000012', 'London'),
-('Mia Lopez', 'mia@example.com', 1999, '0600000013', 'Barcelona'),
-('Louis Petit', 'louis@example.com', 2001, '0600000014', 'Paris'),
-('Sarah Kim', 'sarah@example.com', 1996, '0600000015', 'Seoul'),
-('Ivan Petrov', 'ivan@example.com', 1984, '0600000016', 'Moscow'),
-('Elena Costa', 'elena@example.com', 1992, '0600000017', 'Lisbon'),
-('David Green', 'david@example.com', 1989, '0600000018', 'Dublin'),
-('Yuki Tanaka', 'yuki@example.com', 1997, '0600000019', 'Tokyo'),
-('Anna Müller', 'anna@example.com', 1993, '0600000020', 'Munich');
+('Julia Stein', 'julia@example.com', 1994, '0600000011', 'Vienna', 'julia123', 'ARTIST'),
+('Tom Richards', 'tom@example.com', 1991, '0600000012', 'London', 'tom123', 'MEMBER'),
+('Mia Lopez', 'mia@example.com', 1999, '0600000013', 'Barcelona', 'mia123', 'MEMBER'),
+('Louis Petit', 'louis@example.com', 2001, '0600000014', 'Paris', 'louis123', 'MEMBER'),
+('Sarah Kim', 'sarah@example.com', 1996, '0600000015', 'Seoul', 'sarah123', 'ARTIST'),
+('Ivan Petrov', 'ivan@example.com', 1984, '0600000016', 'Moscow', 'ivan123', 'ARTIST'),
+('Elena Costa', 'elena@example.com', 1992, '0600000017', 'Lisbon', 'elena123', 'MEMBER'),
+('David Green', 'david@example.com', 1989, '0600000018', 'Dublin', 'david123', 'MEMBER'),
+('Yuki Tanaka', 'yuki@example.com', 1997, '0600000019', 'Tokyo', 'yuki123', 'ARTIST'),
+('Anna Müller', 'anna@example.com', 1993, '0600000020', 'Munich', 'anna123', 'ADMIN');
 
 INSERT INTO Artist(bio, website_artist, is_active, id_user) VALUES
 ('Abstract painter', 'https://alice-art.com', TRUE, 1),
