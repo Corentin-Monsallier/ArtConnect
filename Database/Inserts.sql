@@ -243,3 +243,14 @@ INSERT INTO Artist_Social(platform, link, id_artist) VALUES
 ('LinkedIn', 'https://linkedin.com/in/nina-kovac', 9),
 ('Instagram', 'https://instagram.com/carlos.experimental', 10),
 ('YouTube', 'https://youtube.com/carlosmendezart', 10);
+
+INSERT INTO Artwork_Reservation(id_artwork, id_member, reservation_date, payment_status) VALUES
+(1, 1, '2026-01-10 14:30:00', 'paid'),
+(2, 1, '2026-02-05 10:00:00', 'cancelled'),
+(2, 2, '2026-02-12 09:15:00', 'paid'),
+(3, 2, '2026-03-01 16:45:00', 'pending'),
+(4, 3, '2026-03-15 11:00:00', 'pending'),
+(5, 1, '2026-04-02 13:20:00', 'pending'),
+(1, 3, '2026-04-20 08:50:00', 'cancelled'),
+(3, 3, '2026-05-01 17:00:00', 'paid');
+ 
