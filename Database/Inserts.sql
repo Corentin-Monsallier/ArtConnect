@@ -1,27 +1,28 @@
 USE artconnect;
 
-INSERT INTO User_(name_user, email, birth_year, phone, city) VALUES
-('Alice Dupont', 'alice@example.com', 1985, '0600000001', 'Paris'),
-('Marc Leroy', 'marc@example.com', 1990, '0600000002', 'Lyon'),
-('Sophie Martin', 'sophie@example.com', 1998, '0600000003', 'Marseille'),
-('John Becker', 'john@example.com', 1982, '0600000004', 'Berlin'),
-('Emma Rossi', 'emma@example.com', 1995, '0600000005', 'Rome'),
-('Paul Durand', 'paul@example.com', 2000, '0600000006', 'Paris'),
-('Laura Chen', 'laura@example.com', 1997, '0600000007', 'Paris'),
-('Hugo Bernard', 'hugo@example.com', 1988, '0600000008', 'Lille'),
-('Nina Kovac', 'nina@example.com', 1993, '0600000009', 'Zagreb'),
-('Carlos Mendez', 'carlos@example.com', 1987, '0600000010', 'Madrid'),
+INSERT INTO User_ (name_user, email, birth_year, phone, city, password_user, role_user) VALUES
+('Alice Dupont', 'alice@example.com', 1985, '0600000001', 'Paris', 'alice123', 'ARTIST'),
+('Marc Leroy', 'marc@example.com', 1990, '0600000002', 'Lyon', 'marc123', 'ARTIST'),
+('Sophie Martin', 'sophie@example.com', 1998, '0600000003', 'Marseille', 'sophie123', 'ARTIST'),
+('John Becker', 'john@example.com', 1982, '0600000004', 'Berlin', 'john123', 'ARTIST'),
+('Emma Rossi', 'emma@example.com', 1995, '0600000005', 'Rome', 'emma123', 'ARTIST'),
+('Paul Durand', 'paul@example.com', 2000, '0600000006', 'Paris', 'paul123', 'ARTIST'),
+('Laura Chen', 'laura@example.com', 1997, '0600000007', 'Paris', 'laura123', 'ARTIST'),
+('Hugo Bernard', 'hugo@example.com', 1988, '0600000008', 'Lille', 'hugo123', 'ARTIST'),
+('Nina Kovac', 'nina@example.com', 1993, '0600000009', 'Zagreb', 'nina123', 'ARTIST'),
+('Carlos Mendez', 'carlos@example.com', 1987, '0600000010', 'Madrid', 'carlos123', 'ARTIST'),
 
-('Julia Stein', 'julia@example.com', 1994, '0600000011', 'Vienna'),
-('Tom Richards', 'tom@example.com', 1991, '0600000012', 'London'),
-('Mia Lopez', 'mia@example.com', 1999, '0600000013', 'Barcelona'),
-('Louis Petit', 'louis@example.com', 2001, '0600000014', 'Paris'),
-('Sarah Kim', 'sarah@example.com', 1996, '0600000015', 'Seoul'),
-('Ivan Petrov', 'ivan@example.com', 1984, '0600000016', 'Moscow'),
-('Elena Costa', 'elena@example.com', 1992, '0600000017', 'Lisbon'),
-('David Green', 'david@example.com', 1989, '0600000018', 'Dublin'),
-('Yuki Tanaka', 'yuki@example.com', 1997, '0600000019', 'Tokyo'),
-('Anna Müller', 'anna@example.com', 1993, '0600000020', 'Munich');
+('Julia Stein', 'julia@example.com', 1994, '0600000011', 'Vienna', 'julia123', 'MEMBER'),
+('Tom Richards', 'tom@example.com', 1991, '0600000012', 'London', 'tom123', 'MEMBER'),
+('Mia Lopez', 'mia@example.com', 1999, '0600000013', 'Barcelona', 'mia123', 'MEMBER'),
+('Louis Petit', 'louis@example.com', 2001, '0600000014', 'Paris', 'louis123', 'MEMBER'),
+('Sarah Kim', 'sarah@example.com', 1996, '0600000015', 'Seoul', 'sarah123', 'MEMBER'),
+('Ivan Petrov', 'ivan@example.com', 1984, '0600000016', 'Moscow', 'ivan123', 'MEMBER'),
+('Elena Costa', 'elena@example.com', 1992, '0600000017', 'Lisbon', 'elena123', 'MEMBER'),
+('David Green', 'david@example.com', 1989, '0600000018', 'Dublin', 'david123', 'MEMBER'),
+('Yuki Tanaka', 'yuki@example.com', 1997, '0600000019', 'Tokyo', 'yuki123', 'MEMBER'),
+-- ADMIN : anna -> anna@example.com with password anna123
+('Anna Müller', 'anna@example.com', 1993, '0600000020', 'Munich', 'anna123', 'ADMIN'); 
 
 INSERT INTO Artist(bio, website_artist, is_active, id_user) VALUES
 ('Abstract painter', 'https://alice-art.com', TRUE, 1),
@@ -44,8 +45,7 @@ INSERT INTO Member_(membership_type, id_user) VALUES
 ('standard', 16),
 ('premium', 17),
 ('standard', 18),
-('premium', 19),
-('standard', 20);
+('premium', 19);
 
 INSERT INTO Discipline(name_discipline) VALUES
 ('Painting'),
@@ -164,7 +164,7 @@ INSERT INTO Exhibition(title_exhib, curator_name, start_date, end_date, theme, d
 ('AI Horizons','Nina Kovac','2024-06-01','2024-07-15','AI','AI artworks',6),
 ('Red Spectrum','Carlos Mendez','2024-07-01','2024-08-20','Color','Red tones',7),
 ('Minimal Lines','Laura Chen','2024-03-15','2024-04-30','Minimalism','Ink drawings',8),
-('Organic Forms','Emma Rossi','2024-05-01','2024-06:10','Nature','Organic shapes',9),
+('Organic Forms','Emma Rossi','2024-05-01','2024-06-10','Nature','Organic shapes',9),
 ('Digital Dreams','Sophie Martin','2024-08-01','2024-09-15','Digital','AI and digital art',10);
 
 INSERT INTO Exhibition_Artwork(id_artwork, id_exhibition) VALUES
@@ -200,8 +200,7 @@ INSERT INTO Booking(id_member, id_workshop, booking_date, payment_status) VALUES
 (6,5,'2024-05-01','cancelled'),
 (7,6,'2024-07-10','paid'),
 (8,7,'2024-07-20','pending'),
-(9,8,'2024-08-15','paid'),
-(10,9,'2024-09-20','paid');
+(9,8,'2024-08-15','paid');
 
 INSERT INTO Member_Discipline(id_member, id_discipline) VALUES
 (1,1),(1,3),
@@ -212,8 +211,7 @@ INSERT INTO Member_Discipline(id_member, id_discipline) VALUES
 (6,7),
 (7,9),
 (8,10),
-(9,3),
-(10,4);
+(9,3);
 
 INSERT INTO Review(id_member, id_artwork, rating, comment, review_date) VALUES
 (1,1,5,'Amazing colors','2024-03-12'),
@@ -224,8 +222,7 @@ INSERT INTO Review(id_member, id_artwork, rating, comment, review_date) VALUES
 (6,6,5,'Vibrant and energetic','2024-07-01'),
 (7,7,4,'Unique glass work','2024-07-15'),
 (8,8,5,'AI masterpiece','2024-08-01'),
-(9,9,4,'Minimalist and elegant','2024-08-20'),
-(10,10,5,'Bold and experimental','2024-09-01');
+(9,9,4,'Minimalist and elegant','2024-08-20');
 
 INSERT INTO Artist_Social(platform, link, id_artist) VALUES
 ('Instagram', 'https://instagram.com/alice.art', 1),
