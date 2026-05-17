@@ -1,59 +1,65 @@
 USE artconnect;
 
--- Artwork by artist 
+-- view artwork by artist
 CREATE VIEW V_Artwork_By_Artist AS
-SELECT 
+SELECT
     a.id_artist,
     u.name_user AS artist_name,
     aw.id_artwork,
     aw.title_art,
     aw.creation_year,
     aw.type,
+    aw.medium,
     aw.price,
-    aw.status
+    aw.status,
+    GROUP_CONCAT(DISTINCT d.name_discipline ORDER BY d.name_discipline SEPARATOR ', ') AS disciplines
 FROM Artwork aw
 JOIN Artist a ON aw.id_artist = a.id_artist
 JOIN User_ u ON a.id_user = u.id_user
+LEFT JOIN Artist_Discipline ad ON a.id_artist = ad.id_artist
+LEFT JOIN Discipline d ON ad.id_discipline = d.id_discipline
+GROUP BY a.id_artist, u.name_user, aw.id_artwork, aw.title_art,
+         aw.creation_year, aw.type, aw.medium, aw.price, aw.status
 ORDER BY a.id_artist, aw.id_artwork;
 
--- Artworks by discipline 
-CREATE VIEW V_Artworks_By_Discipline AS 
-SELECT  
-    d.id_discipline, 
-    d.name_discipline, 
-    a.id_artwork, 
-    a.title_art 
-FROM Discipline d 
-JOIN Artist_Discipline ad ON d.id_discipline = ad.id_discipline 
-JOIN Artist ar ON ad.id_artist = ar.id_artist 
-JOIN Artwork a ON ar.id_artist = a.id_artist; 
+-- Artworks by discipline (inchangée)
+CREATE VIEW V_Artworks_By_Discipline AS
+SELECT
+    d.id_discipline,
+    d.name_discipline,
+    a.id_artwork,
+    a.title_art
+FROM Discipline d
+JOIN Artist_Discipline ad ON d.id_discipline = ad.id_discipline
+JOIN Artist ar ON ad.id_artist = ar.id_artist
+JOIN Artwork a ON ar.id_artist = a.id_artist;
 
--- Artworks by review
-CREATE VIEW V_Artwork_By_Review  AS 
-SELECT 
-    a.id_artwork, 
-    a.title_art, 
-    a.creation_year, 
-    a.type, 
-    a.medium, 
-    a.dimensions, 
-    a.description, 
-    a.price, 
-    a.status, 
-    r.rating, 
-    r.comment, 
-    r.review_date, 
-    r.id_member, 
-    u.name_user 
-FROM Review r  
-JOIN Artwork a ON r.id_artwork = a.id_artwork 
-JOIN Member_ m ON r.id_member = m.id_member 
+-- Artworks by review (inchangée)
+CREATE VIEW V_Artwork_By_Review AS
+SELECT
+    a.id_artwork,
+    a.title_art,
+    a.creation_year,
+    a.type,
+    a.medium,
+    a.dimensions,
+    a.description,
+    a.price,
+    a.status,
+    r.rating,
+    r.comment,
+    r.review_date,
+    r.id_member,
+    u.name_user
+FROM Review r
+JOIN Artwork a ON r.id_artwork = a.id_artwork
+JOIN Member_ m ON r.id_member = m.id_member
 JOIN User_ u ON m.id_user = u.id_user
 ORDER BY r.rating;
 
--- Average price of the artworks of an artist 
+-- Average price
 CREATE VIEW V_Avg_Artwork_Price AS
-SELECT 
+SELECT
     a.id_artist,
     u.name_user AS artist_name,
     AVG(aw.price) AS avg_price,
@@ -65,46 +71,47 @@ GROUP BY a.id_artist
 ORDER BY a.id_artist;
 
 -- Reviews by artwork
-CREATE VIEW V_Review_By_Artwork AS 
-SELECT a.id_artwork, a.title_art, a.creation_year, a.type, a.medium, 
-		a.dimensions, 
-        a.description, 
-        a.price, 
-        a.status, 
-        r.rating, 
-        r.comment, 
-        r.review_date, 
-        r.id_member, 
-        u.name_user 
-FROM Review r  
-JOIN Artwork a ON r.id_artwork = a.id_artwork 
-JOIN Member_ m ON r.id_member = m.id_member 
-JOIN User_ u ON m.id_user = u.id_user; 
+CREATE VIEW V_Review_By_Artwork AS
+SELECT a.id_artwork, a.title_art, a.creation_year, a.type, a.medium,
+       a.dimensions,
+       a.description,
+       a.price,
+       a.status,
+       r.rating,
+       r.comment,
+       r.review_date,
+       r.id_member,
+       u.name_user
+FROM Review r
+JOIN Artwork a ON r.id_artwork = a.id_artwork
+JOIN Member_ m ON r.id_member = m.id_member
+JOIN User_ u ON m.id_user = u.id_user;
 
--- Workshop by availability (booking) 
-CREATE VIEW V_Workshop_Availability AS 
-SELECT  
-    w.id_workshop, 
-    w.title_workshop, 
-    w.max_participants, 
-    COUNT(b.id_member) AS total_bookings, 
-    (w.max_participants - COUNT(b.id_member)) AS remaining_spots, 
-    CASE  
-        WHEN COUNT(b.id_member) < w.max_participants THEN 'available' 
-        ELSE 'full' 
-    END AS availability_status 
-FROM Workshop w 
-JOIN Booking b  
-    ON w.id_workshop = b.id_workshop 
-    AND b.payment_status <> 'cancelled' 
-GROUP BY  
-    w.id_workshop, 
-    w.title_workshop, 
-    w.max_participants; 
+-- workshops according to their availability
+DROP VIEW IF EXISTS V_Workshop_Availability;
+CREATE VIEW V_Workshop_Availability AS
+SELECT
+    w.id_workshop,
+    w.title_workshop,
+    w.max_participants,
+    COUNT(b.id_member) AS total_bookings,
+    (w.max_participants - COUNT(b.id_member)) AS remaining_spots,
+    CASE
+        WHEN COUNT(b.id_member) < w.max_participants THEN 'available'
+        ELSE 'full'
+    END AS availability_status
+FROM Workshop w
+LEFT JOIN Booking b
+    ON w.id_workshop = b.id_workshop
+    AND b.payment_status <> 'cancelled'
+GROUP BY
+    w.id_workshop,
+    w.title_workshop,
+    w.max_participants;
 
 -- Members in Workshop
 CREATE VIEW V_Workshop_Participants AS
-SELECT 
+SELECT
     w.id_workshop,
     w.title_workshop,
     m.id_member,
@@ -117,20 +124,20 @@ JOIN Member_ m ON b.id_member = m.id_member
 JOIN User_ u ON m.id_user = u.id_user
 WHERE b.payment_status <> 'cancelled';
 
--- Count workshops done already by an artist 
-CREATE VIEW V_Artist_Workshop_Count  AS 
-SELECT 
-	a.id_artist,
+-- Count workshops by artist
+CREATE VIEW V_Artist_Workshop_Count AS
+SELECT
+    a.id_artist,
     u.name_user AS artist_name,
     COUNT(w.id_workshop) AS past_workshops
-FROM Artist a 
-JOIN User_ u ON a.id_user = u.id_user 
+FROM Artist a
+JOIN User_ u ON a.id_user = u.id_user
 JOIN Workshop w ON a.id_artist = w.id_artist AND w.date_workshop < NOW()
 GROUP BY id_artist, u.name_user;
 
--- Artist by exhibition 
+-- Artist by exhibition
 CREATE VIEW V_Artist_By_Exhibition AS
-SELECT 
+SELECT
     e.id_exhibition,
     e.title_exhib,
     a.id_artist,
@@ -144,23 +151,23 @@ JOIN User_ u ON a.id_user = u.id_user
 GROUP BY e.id_exhibition, a.id_artist
 ORDER BY e.id_exhibition, a.id_artist;
 
--- Available exhibition by gallery 
-CREATE VIEW V_Available_Exhibitions_By_Gallery  AS 
-SELECT  
-    g.id_gallery, 
-    g.name_gallery, 
-    e.id_exhibition, 
-    e.title_exhib, 
-    e.start_date, 
-    e.end_date, 
-    e.theme 
-FROM Exhibition e 
-JOIN Gallery g ON e.id_gallery = g.id_gallery 
-WHERE CURDATE() BETWEEN e.start_date AND e.end_date; 
+-- Available exhibitions by gallery
+CREATE VIEW V_Available_Exhibitions_By_Gallery AS
+SELECT
+    g.id_gallery,
+    g.name_gallery,
+    e.id_exhibition,
+    e.title_exhib,
+    e.start_date,
+    e.end_date,
+    e.theme
+FROM Exhibition e
+JOIN Gallery g ON e.id_gallery = g.id_gallery
+WHERE CURDATE() BETWEEN e.start_date AND e.end_date;
 
--- Artist associated with their social(s)
+-- Artist social
 CREATE VIEW V_Artist_Social AS
-SELECT 
+SELECT
     a.id_artist,
     u.name_user AS artist_name,
     s.platform,
@@ -169,16 +176,17 @@ FROM Artist a
 JOIN User_ u ON a.id_user = u.id_user
 JOIN Artist_Social s ON a.id_artist = s.id_artist;
 
--- Regroup info on users
-CREATE VIEW V_User_Info  AS 
-SELECT 
-	u.id_user, 
-    u.name_user, 
-    u.email, 
-    u.birth_year, 
-    u.phone, 
-    u.city, 
+-- View users info
+DROP VIEW IF EXISTS V_User_Info;
+CREATE VIEW V_User_Info AS
+SELECT
+    u.id_user,
+    u.name_user,
+    u.email,
+    u.birth_year,
+    u.phone,
+    u.city,
     m.membership_type,
-    m.id_member 
-FROM User_ u 
-JOIN Member_ m ON u.id_user = m.id_user; 
+    m.id_member
+FROM User_ u
+LEFT JOIN Member_ m ON u.id_user = m.id_user;
