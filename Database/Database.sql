@@ -184,3 +184,14 @@ CREATE TABLE Booking(
    FOREIGN KEY(id_member) REFERENCES Member_(id_member),
    FOREIGN KEY(id_workshop) REFERENCES Workshop(id_workshop)
 );
+
+CREATE TABLE Artwork_Reservation(
+    id_reservation INT NOT NULL AUTO_INCREMENT,
+    id_artwork INT NOT NULL,
+    id_member INT NOT NULL,
+    reservation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    payment_status ENUM('pending','paid','cancelled') NOT NULL DEFAULT 'pending',
+    PRIMARY KEY (id_reservation),
+    CONSTRAINT fk_ar_artwork FOREIGN KEY (id_artwork) REFERENCES Artwork(id_artwork),
+    CONSTRAINT fk_ar_member FOREIGN KEY (id_member) REFERENCES Member_(id_member)
+);
