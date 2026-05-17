@@ -1,0 +1,8 @@
+Links to GitHub depositories : 
+- Frameconceptions, all deliverables required:
+https://github.com/Corentin-Monsallier/ArtConnect.git
+- Application :
+https://github.com/Corentin-Monsallier/ArtConnect-App.git
+
+Link to the presentation : 
+https://canva.link/z19ozfp8fr8skd8
