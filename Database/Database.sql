@@ -2,16 +2,16 @@ DROP DATABASE IF EXISTS artconnect;
 CREATE DATABASE artconnect;
 USE artconnect;
 
-CREATE TABLE User_(
-   id_user INT AUTO_INCREMENT,
-   name_user VARCHAR(50),
-   email VARCHAR(50),
-   birth_year INT,
-   phone VARCHAR(20),
-   city VARCHAR(50),
-   PRIMARY KEY(id_user)
+CREATE TABLE User_ (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    name_user VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    birth_year INT,
+    phone VARCHAR(20),
+    city VARCHAR(50),
+    password_user VARCHAR(255) NOT NULL default "password",
+    role_user ENUM('ADMIN', 'MEMBER', 'ARTIST') NOT NULL DEFAULT 'MEMBER'
 );
-
 CREATE TABLE Artist(
    id_artist INT AUTO_INCREMENT,
    bio TEXT,
